@@ -1,7 +1,6 @@
 from langchain.tools import tool,BaseTool
 from pydantic import BaseModel,Field
 import webbrowser
-from playwright.sync_api import sync_playwright
 import platform
 from pathlib import Path
 import os
