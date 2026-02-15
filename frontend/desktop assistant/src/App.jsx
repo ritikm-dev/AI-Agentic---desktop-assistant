@@ -1,5 +1,9 @@
   import { useRef,useState,useEffect, use } from "react";
   import { useNavigate } from "react-router-dom";
+  import user_logo from './assets/user_icon.png';
+  import bot_logo from './assets/bot_icon.png';
+  import settings_logo from './assets/settings.png';
+  import send_logo from './assets/send-button.png';
   function App() {
   const navigate = useNavigate();
   const [isopen,setOpen] = useState(false);
@@ -43,7 +47,7 @@
       <div className="title">
         <h1><center>DESKO-ASSIST</center></h1>
         <button className="settings_button" onClick={open}>
-          <img src="./assets/settings.png" className="settings" width={70} alt="" />
+          <img className="settings" width={70} alt="" >{settings_logo}</img>
         </button>
       </div>  
       {isopen && 
@@ -84,12 +88,12 @@
          {show_user_text.map((msg, index) => (     
          <div key={index}>
         <div className="user">    
-        <img src="./assets/user_icon.png" width={100}></img>         
+        <img width={100}>{user_logo}</img>         
         <p>{msg}</p>
       </div>
       {show_bot_text[index] && (
         <div className="bot">
-          <img src="./assets/bot_icon.png" width={100}></img>
+          <img src width={100}>{bot_logo}</img>
           <p>{show_bot_text[index]}</p>
         </div>
       )}
@@ -120,7 +124,7 @@
   rows={1}
   style={{ resize: 'none', overflow: 'hidden', minHeight: '40px' }}></textarea>
         </div>
-        <button className="send-button" onClick={()=>{send_user_msg();}}><img src="./assets/send-button.png" className="arrow-img"width={50}></img></button>
+        <button className="send-button" onClick={()=>{send_user_msg();}}><img className="arrow-img"width={50}>{send_logo}</img></button>
         </div>
       </>
 
