@@ -1,4 +1,4 @@
-  import { useRef,useState,useEffect, use } from "react";
+  import { useRef,useState,useEffect } from "react";
   import { useNavigate } from "react-router-dom";
   import user_logo from './assets/user_icon.png';
   import bot_logo from './assets/bot_icon.png';
@@ -30,7 +30,7 @@
        setUser_msg("")
 
       const response = await fetch(
-        "http://127.0.0.1:8000/usermsg",
+        "https://ai-agentic-desktop-assistant.onrender.com/usermsg",
         {
           method : "POST",
           headers : {"Content-Type" : "application/json"},
