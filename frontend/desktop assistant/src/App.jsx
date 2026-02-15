@@ -4,6 +4,7 @@
   import bot_logo from './assets/bot_icon.png';
   import settings_logo from './assets/settings.png';
   import send_logo from './assets/send-button.png';
+
   function App() {
   const navigate = useNavigate();
   const [isopen,setOpen] = useState(false);
@@ -29,7 +30,7 @@
        setUser_msg("")
 
       const response = await fetch(
-        "http://127.0.0.1:8000/api/usermsg",
+        "/api/usermsg",
         {
           method : "POST",
           headers : {"Content-Type" : "application/json"},
