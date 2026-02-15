@@ -5,7 +5,8 @@ from Web import main
 app = FastAPI()
 origin = [
         "http://localhost:5173",
-        "http://localhost:5173/"
+        "http://localhost:5173/",
+        "*"
 ]
 app.add_middleware(
         CORSMiddleware,
