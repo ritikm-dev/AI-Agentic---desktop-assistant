@@ -11,15 +11,15 @@ import sys
 from typing import List
 from dotenv import load_dotenv
 import os
-load_dotenv()
+load_dotenv(override=True)
 llm_url = ChatOpenAI(
-model="gemini-2.5-flash",  
+model="gemini-2.5-flash-lite",  
     openai_api_key=os.getenv("GEMINI_API_KEY"),  
     openai_api_base=os.getenv("GEMINI_BASE_URL"),
 )
 
 llm_web = ChatOpenAI(
-model="gemini-2.5-flash",  
+model="gemini-2.5-flash-lite",  
     openai_api_key=os.getenv("GEMINI_API_KEY"),  
     openai_api_base=os.getenv("GEMINI_BASE_URL"),
 
@@ -140,7 +140,6 @@ graph = graph_builder.compile()
 import re
 def main(user_input):
     # file_open =["my files","files","file manager","this pc","local disk","recycle bin","desktop files","file explorer","file"]
-    # profile=["leed code","leet code","leet","leed","leedcode","leetcode","git hub","github","leadcode","lead code","get hub","gethub"] 
     # words = re.findall(r'\b\w+\b',user_input.lower())
     # if any(word in words for word in file_open):
     #         print("Opening File Manager")
@@ -171,7 +170,8 @@ def main(user_input):
     #         subprocess.run(["shutdown","/r","/t","30"])
     #         return "System will restart in 30 seconds"
     # else:
-        try:
+        try:        
+                profile=["leed code","leet code","leet","leed","leedcode","leetcode","git hub","github","leadcode","lead code","get hub","gethub"] 
                 print(f"🔍 Processing query: {user_input}")
                 state = {"messages": [], "user_query": user_input, "url": "", "bot_msg": ""}
                 
