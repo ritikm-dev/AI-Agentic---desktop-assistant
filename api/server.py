@@ -25,7 +25,7 @@ async def root():
         return {
                 "message" : "hi"
         }
-@app.post("/api/usermsg")
+@app.post("/usermsg")
 async def root_post(data : dict):
         try:
                 msg = data["user_msg"]
