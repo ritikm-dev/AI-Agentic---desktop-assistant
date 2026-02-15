@@ -5,6 +5,7 @@ from Web import main
 app = FastAPI()
 origin = [
         "http://localhost:5173",
+        "https://ai-agentic-desktop-assistant.vercel.app",
         "http://localhost:5173/",
         "https://ai-agentic-desktop-assistant.onrender.com/"
         "*"
