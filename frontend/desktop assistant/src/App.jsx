@@ -30,7 +30,7 @@
        setUser_msg("")
 
       const response = await fetch(
-        "https://ai-agentic-desktop-assistant.onrender.com/api/usermsg",
+        "https://ai-agentic-desktop-assistant.onrender.com/usermsg",
         {
           method : "POST",
           headers : {"Content-Type" : "application/json"},
