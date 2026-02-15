@@ -47,7 +47,7 @@
       <div className="title">
         <h1><center>DESKO-ASSIST</center></h1>
         <button className="settings_button" onClick={open}>
-          <img className="settings" width={70} alt="" >{settings_logo}</img>
+          <img src={settings_logo} className="settings" width={70} alt="" />
         </button>
       </div>  
       {isopen && 
@@ -88,12 +88,12 @@
          {show_user_text.map((msg, index) => (     
          <div key={index}>
         <div className="user">    
-        <img width={100}>{user_logo}</img>         
+        <img src={user_logo}width={100}></img>         
         <p>{msg}</p>
       </div>
       {show_bot_text[index] && (
         <div className="bot">
-          <img src width={100}>{bot_logo}</img>
+          <img src={bot_logo} width={100}></img>
           <p>{show_bot_text[index]}</p>
         </div>
       )}
@@ -124,7 +124,7 @@
   rows={1}
   style={{ resize: 'none', overflow: 'hidden', minHeight: '40px' }}></textarea>
         </div>
-        <button className="send-button" onClick={()=>{send_user_msg();}}><img className="arrow-img"width={50}>{send_logo}</img></button>
+        <button className="send-button" onClick={()=>{send_user_msg();}}><img src={send_logo} className="arrow-img"width={50}></img></button>
         </div>
       </>
 
