@@ -41,6 +41,7 @@ def browser_tool(url : str):
         if browser_instance is None:
                     browser_instance = p.chromium.launch(
                         headless=False,
+                        args=["--no-sandbox", "--disable-dev-shm-usage", "--disable-blink-features=AutomationControlled"],
                         channel="chrome"
                     )
 
