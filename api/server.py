@@ -22,7 +22,7 @@ async def root():
         return {
                 "message" : "hi"
         }
-@app.post("/usermsg")
+@app.post("/api/usermsg")
 async def root_post(data : dict):
         try:
                 msg = data["user_msg"]
