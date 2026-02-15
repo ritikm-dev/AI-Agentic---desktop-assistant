@@ -6,6 +6,7 @@ app = FastAPI()
 origin = [
         "http://localhost:5173",
         "http://localhost:5173/",
+        "https://ai-agentic-desktop-assistant.onrender.com/"
         "*"
 ]
 app.add_middleware(
