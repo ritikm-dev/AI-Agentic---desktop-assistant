@@ -36,17 +36,7 @@ def browser_tool(url : str):
     url_ = f"{url}"
     status=False
     try :
-        if p is None:
-            p = sync_playwright().start()
-        if browser_instance is None:
-                    browser_instance = p.chromium.launch(
-                        headless=False,
-                        args=["--no-sandbox", "--disable-dev-shm-usage", "--disable-blink-features=AutomationControlled"],
-                        channel="chrome"
-                    )
-
-        page = browser_instance.new_page()
-        page.goto(url=url_)
+        webbrowser.open(url_)
         status = True
         return status
     except Exception as e:
