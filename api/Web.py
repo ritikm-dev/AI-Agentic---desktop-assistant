@@ -177,17 +177,18 @@ def main(user_input):
                         state["user_query"] = user_input + " " + profile_text
                 
                 print("🚀 Invoking graph...")
-                result = graph.invoke(state)            
+                result = graph.invoke(state)    
+                print(result["url"])        
                 bot_msg = result.get("bot_msg", "No response generated")
                 print(f"💬 Returning bot_msg: {bot_msg}")
                 if bot_msg=="":
                     bot_msg = "API Limit over!!"
                 return {
                      "msg" : bot_msg,
-                     "url" : state["url"]
+                     "url" : result["url"]
                 }
         except Exception as e:
             return {
                   "msg" : "some error occured...",
-                    "url" : state["url"]
+                    "url" : result["url"]
             }

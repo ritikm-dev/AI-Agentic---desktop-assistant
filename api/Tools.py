@@ -35,7 +35,6 @@ def browser_tool(url : str):
     url_ = f"{url}"
     status=False
     try :
-        webbrowser.open(url_)
         status = True
         return status
     except Exception as e:
