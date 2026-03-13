@@ -4,22 +4,18 @@ from langchain_core.messages import AIMessage,SystemMessage,HumanMessage
 from langchain_core.tools import tool,Tool
 from langgraph.graph.message import  TypedDict,add_messages,Annotated
 from langchain_openai import ChatOpenAI
-from Tools import browser_tool
-import ctypes
-import subprocess
-import sys
-from typing import List
+from .Tools import browser_tool
 from dotenv import load_dotenv
 import os
 load_dotenv(override=True)
 llm_url = ChatOpenAI(
-model="gemini-2.5-flash",  
+model="gemini-2.5-flash-lite",  
     openai_api_key=os.getenv("GEMINI_API_KEY"),  
     openai_api_base=os.getenv("GEMINI_BASE_URL"),
 )
 
 llm_web = ChatOpenAI(
-model="gemini-2.5-flash",  
+model="gemini-2.5-flash-lite",  
     openai_api_key=os.getenv("GEMINI_API_KEY"),  
     openai_api_base=os.getenv("GEMINI_BASE_URL"),
 

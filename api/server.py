@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from Web import main
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from .Web import main
 app = FastAPI()
 origin = [
         "http://localhost:5173",
@@ -10,13 +12,22 @@ origin = [
 ]
 app.add_middleware(
         CORSMiddleware,
-        allow_origins = origin,
+        allow_origins = ["*"],
         allow_credentials=True,
         allow_headers =["*"],
         allow_methods = ["*"]
 )
 class Root_Message(BaseModel):
         user_input : str
+app.mount("/assets",StaticFiles(directory="dist/assets",html=True),name="assets")
+@app.get("/")
+def serve():
+        return FileResponse("dist/index.html")
+@app.get("/{path : path}")
+async def catch_all(path : str):
+        return FileResponse("dist/index.html")
+
+
 
 @app.get("/")
 async def root():

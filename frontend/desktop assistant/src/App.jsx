@@ -30,7 +30,7 @@ function App() {
     setUser_msg("")
 
     const response = await fetch(
-      "https://ai-agentic-desktop-assistant.onrender.com/usermsg",
+      "/usermsg",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -107,6 +107,7 @@ function App() {
             className="msg-box"
             value={user_msg}
             onChange={(e) => {
+              
               setUser_msg(e.target.value);
               if (e.target.value) {
                 e.target.style.height = 'auto';
