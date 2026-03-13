@@ -40,6 +40,9 @@ function App() {
       }
     )
     const data = await response.json();
+    if(response.ok && data["url"]!="not open"){
+      window.open(data["url"],"_blank")
+    }
     setShow_bot_text([...show_bot_text, data["bot_msg"]])
   }
 
