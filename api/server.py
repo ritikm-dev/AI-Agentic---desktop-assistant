@@ -42,9 +42,21 @@ async def root_post(data : dict):
                 if msg!="":
                         bot_response = main(msg)
                         print(bot_response)
+                if bot_response.url == "not open":
+                        return {
+                        "message" : "recieved",
+                        "bot_msg" : bot_response.msg,
+                        "url" : "not open"
+                }
+                else:
+                        return {
+                                "message" : "recieved",
+                                "bot_msg" : bot_response.msg,
+                                "url" : bot_response.url
+                        }
+        except Exception as e:
                 return {
                         "message" : "recieved",
-                        "bot_msg" : bot_response 
+                        "bot_msg" : bot_response.msg,
+                        "url" : "not open"
                 }
-        except Exception as e:
-                return "Some error has happened please check your connection"
