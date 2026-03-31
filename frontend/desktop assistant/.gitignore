@@ -22,8 +22,6 @@ venv/
 # Node
 node_modules/
 .next/
-dist/
-build/
 
 # IDE
 .vscode/
