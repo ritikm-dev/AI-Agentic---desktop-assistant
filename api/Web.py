@@ -36,21 +36,89 @@ def url_extracter(state : State):
     messages = [
         SystemMessage(
             content="""
-    You are a URL generation agent. Your task is to take the user's input and return a fully-qualified, valid URL that can be opened in a web browser. Follow these rules strictly:
-            IF USER ASKED OPEN AND SEARCH FIRST CREATE URL FOR OPENING WEBSITE AND ALSO ADD THE SEARCH QUERY WITH CORRECT URL FORMAT CORRECTLY BEA+CAUSE DiFFERENT WEBSITE
-            HAVE DIFFERENT URL FORMAT AND THEN RETURN CORRECT URL WITH WEBSITE AND SEARCH QUERY
-            1. Use the provided direct site links whenever the user mentions a known website. Return the direct URL for that site exactly as given. Do NOT append search parameters to it unless the user explicitly requests a search on that site.
-            2. Detect search intent:
-            - If the user input contains search-like words or queries (e.g., 'search', 'how', 'what', 'tutorial', 'site:'), generate a URL that performs the search.
-            - Encode all spaces and special characters properly in the search URL.
-            3. Include any site filters or modifiers exactly as provided by the user.
-            4. Do NOT generate search URLs using direct site URLs unless the user explicitly asks to search within that site.
-            5. Do NOT include any explanations, instructions, or extra text—ONLY output the final URL.
-            6. Always ensure the URL is fully-qualified, valid, and ready to open directly in a browser.
-            7. If the user asks for adult, explicit, illegal, or unsafe content, do NOT generate a URL.
-            8. Only output the URL. No markdown, no formatting, no text—pure URL alone.
-            Use the following direct site links exactly as given:
-            -IF USER ASK FOR ADULT CONTENTS DONT GENERATE URL"""
+You are a multilingual URL generation agent.
+
+Your task is to understand the user's intent in ANY language and decide whether to generate a URL or not.
+
+---
+
+### Step 1: Multilingual Intent Detection
+
+You MUST detect intent regardless of language (English, Tamil, Hindi, etc.).
+
+- If the user input is casual conversation (greetings, small talk, jokes, chit-chat in ANY language):
+  Examples:
+  - "hi", "hello"
+  - "vanakkam", "saptiya"
+  - "namaste", "kaise ho"
+  
+  → Return exactly: NONE
+
+- If the user input does NOT clearly ask to open, search, or access a website/app:
+  → Return exactly: NONE
+
+- Only proceed if the user clearly intends to:
+  - open a website/app
+  - search something
+  - access online content
+
+---
+
+### Step 2: Understand Action in Any Language
+
+Detect words meaning "open" or "search" across languages:
+
+- English: open, search, find
+- Tamil: open, திற, தேடு
+- Hindi: खोलो, खोजो
+- Hinglish: open karo, search karo
+
+Even if mixed language is used, you MUST correctly detect intent.
+
+---
+
+### Step 3: URL Generation Rules
+
+1. If user says "open <website/app>"
+   → Return homepage URL  
+   Example: open youtube → https://www.youtube.com  
+
+2. If user includes search intent:
+   → Generate proper search URL  
+
+   Examples:
+   - Google → https://www.google.com/search?q=<query>
+   - YouTube → https://www.youtube.com/results?search_query=<query>
+
+3. If user says open + search:
+   → Open that site with search query
+
+4. Encode spaces using "+" or "%20"
+
+5. Unknown website:
+   → Use Google fallback  
+   https://www.google.com/search?q=<query>
+
+---
+
+### Step 4: Safety Rules
+
+- If user asks for adult, illegal, or unsafe content:
+  → Return exactly: NONE
+
+---
+
+### Step 5: Output Rules (STRICT)
+
+- Output ONLY:
+  1. A valid URL  
+  OR  
+  2. NONE  
+
+- No explanation  
+- No extra text  
+- No formatting  
+   """
         ),
         HumanMessage(
             content=f"""User Query: {state['user_query']}"""
@@ -64,21 +132,46 @@ def url_extracter(state : State):
     }
 
 def query_agent(state : State):
+    if state["url"] == "None":
+         return {
+              "messages" : [AIMessage(content="False")]
+         }
     messages = [
         SystemMessage(
             content="""
-                You are a web-browsing agent. Follow these rules strictly:
+               You are a strict web-browsing agent.
 
-1. Always use the tool `browser_tool` for any URL provided. Do NOT try to answer without using the tool.
-2. Include the user's query in the tool input so the tool can search the page and extract relevant information.
-3. Only summarize the main readable content from the page. Do NOT include unrelated details.
-4. Never answer based on prior knowledge, assumptions, or guesses. Only respond based on the tool’s output.
-5. Wait for the `browser_tool` results before generating any response.
-6. If the user requests content that is adult, explicit, illegal, or unsafe, do NOT use the tool and refuse politely.
-7. Do NOT attempt to access any other pages or make any web requests outside the provided URL.
-8. Your responses must be factual, concise, and strictly based on the tool output.
-9.YOU MUST REPLY WITH A MESSAGE USING THAT TOOL LIKE True means true or False means false 
-10.i need a output response as true or false compulsory based on the tool use success or failure
+Your job is to decide whether a URL can be opened using the tool `browser_tool`.
+
+### Step 1: Validate URL
+- If the URL is "NONE", empty, invalid, or not a proper web link:
+  → DO NOT use the tool
+  → Return exactly: False
+
+### Step 2: Tool Usage
+- If the URL is valid:
+  → You MUST call the tool `browser_tool`
+  → Pass the URL as input
+
+### Step 3: Output Rules (STRICT)
+- If tool execution is successful → return exactly: True
+- If tool execution fails → return exactly: False
+
+### Critical Rules:
+- Do NOT explain anything
+- Do NOT add extra text
+- Do NOT summarize content
+- Output must be ONLY:
+  True
+  OR
+  False
+
+- Never use prior knowledge
+- Never skip tool when URL is valid
+- Never call tool when URL is invalid
+
+Your entire response must be a single word:
+True or False
 """),
             
         HumanMessage(
@@ -90,36 +183,40 @@ def query_agent(state : State):
         "messages" : [result],
     }
 def reply_agent(state: State):
-    """
-    Generate a user-friendly response based on the tool execution result.
-    Returns a conversational message indicating success or failure.
-    """
-    messages = [
-        SystemMessage(
-            content="""You are an intelligent assistant that responds to the user's query based on the outcome of the requested action.
-- If the query was successfully completed (result is True), clearly state the success in a friendly and concise manner. For example:
-  - "I have successfully opened YouTube for you."
-  - "The requested website is now open."
+    user_query = state["user_query"]
+    url = state["url"]
+    if url == "NONE":
+        messages = [
+            SystemMessage(
+                content="""
+You are a friendly and intelligent assistant.
 
-- If the query could not be completed (result is False), clearly state the failure and optionally suggest alternatives. For example:
-  - "I wasn't able to open YouTube. Please check your connection or try again."
-  - "The action failed, would you like me to try another approach?"
+- The user input is casual or general conversation.
+- Respond naturally and conversationally.
+- Understand the user's intent and reply appropriately.
+- Keep it short, clear, and human-like.
+- Do NOT mention URLs or actions.
+"""
+            ),
+            HumanMessage(content=user_query)
+        ]
 
-Always respond in a clear, conversational style and reference the action the user requested."""
-        ),
-        HumanMessage(
-            content=f"""User Query: {state["user_query"]}
-Tool Result: {state["messages"][-1].content}
+        result = llm_web.invoke(messages)
 
-Based on the tool result (True = success, False = failure), provide an appropriate response to the user."""
-        )
-    ]
-    
-    result = llm_web.invoke(messages)
-    print(f"reply agent response: {result.content}")
-    return {
-        "bot_msg": result.content
-    }
+        return {
+            "bot_msg": result.content
+        }
+
+    tool_result = state["messages"][-1].content.strip().lower()
+
+    if "true" in tool_result:
+        return {
+            "bot_msg": f"Success: Opening requested content. URL: {url}"
+        }
+    else:
+        return {
+            "bot_msg": "Failed: Unable to open the requested content. Please try again."
+        }
 graph_builder = StateGraph(State)
 tool_node = ToolNode([browser_tool])
 graph_builder.add_node("query agent",query_agent)
