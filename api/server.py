@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from .Web import main
+from Web import main
 app = FastAPI()
 origin = [
         "http://localhost:5173",
@@ -42,14 +42,7 @@ async def root_post(data : dict):
                 if msg!="":
                         bot_response = main(msg)
                         print(f"bot msg : {bot_response}")
-                if bot_response["url"] == "not open":
-                        return {
-                        "message" : "recieved",
-                        "bot_msg" : bot_response["msg"],
-                        "url" : "not open"
-                }
-                else:
-                        return {
+                return {
                                 "message" : "recieved",
                                 "bot_msg" : bot_response["msg"],
                                 "url" : bot_response["url"]

@@ -40,12 +40,14 @@ function App() {
       }
     )
     const data = await response.json();
-    if(response.ok && data["url"]!="not open"){
+    console.log(data["url"])
+    if(response.ok && (data["url"].startsWith("http://") || data["url"].startsWith("https://"))){
       window.open(data["url"],"_blank")
       setShow_bot_text([...show_bot_text, data["bot_msg"]])
     }
     else{
-      setShow_bot_text([...show_bot_text, "Some Error has been occured please check your apikey validity"])
+      console.log(data)
+      setShow_bot_text([...show_bot_text, data["bot_msg"]])
     }
   }
 
