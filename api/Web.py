@@ -132,7 +132,7 @@ Even if mixed language is used, you MUST correctly detect intent.
     }
 
 def query_agent(state : State):
-    if state["url"] == "None":
+    if state["url"] == "NONE":
          return {
               "messages" : [AIMessage(content="False")]
          }
@@ -266,7 +266,7 @@ def main(user_input):
         try:        
                 profile=["leed code","leet code","leet","leed","leedcode","leetcode","git hub","github","leadcode","lead code","get hub","gethub"] 
                 print(f"🔍 Processing query: {user_input}")
-                state = {"messages": [], "user_query": user_input, "url": "", "bot_msg": "None"}
+                state = {"messages": [], "user_query": user_input, "url": "", "bot_msg": "NONE"}
                 
                 if any(word in user_input.lower() for word in profile):
                         s = input("Enter Profile to open: ")
@@ -287,5 +287,5 @@ def main(user_input):
         except Exception as e:
             return {
                   "msg" : "some error occured...",
-                    "url" : result["url"]
+                    "url" : result["url"] if 'result' in dir() else ""
             }
