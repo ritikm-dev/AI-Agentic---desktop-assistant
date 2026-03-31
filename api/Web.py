@@ -266,7 +266,7 @@ def main(user_input):
         try:        
                 profile=["leed code","leet code","leet","leed","leedcode","leetcode","git hub","github","leadcode","lead code","get hub","gethub"] 
                 print(f"🔍 Processing query: {user_input}")
-                state = {"messages": [], "user_query": user_input, "url": "", "bot_msg": ""}
+                state = {"messages": [], "user_query": user_input, "url": "", "bot_msg": "None"}
                 
                 if any(word in user_input.lower() for word in profile):
                         s = input("Enter Profile to open: ")
