@@ -48,10 +48,6 @@ def content_generator(state : State):
         - Respond with a friendly and motivating message.
         -And also when they ask about You u can take it as casual.
         - JSON format: {"response": reply_to_the_user_based_on_rules, "type": "casual"}
-        3. Irrelevant Input:
-        - If input is neither URL nor casual:
-        - Respond politely with "I do not have an idea on this, sorry!"
-        - JSON format: {"response": "None", "type": "irrelevant"}
         Output rules:
         - Only return JSON exactly as described above.
         - Do not add code blocks, explanations, or extra text."""),
