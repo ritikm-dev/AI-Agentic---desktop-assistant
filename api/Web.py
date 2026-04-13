@@ -10,15 +10,15 @@ import os
 import json
 load_dotenv(override=True)
 llm_url = ChatOpenAI(
-model="tinyllama",  
-    openai_api_key=os.getenv("GEMINI_API_KEY"),  
-    openai_api_base=os.getenv("GEMINI_BASE_URL"),
+model="mistral:7b",  
+    api_key=os.getenv("GEMINI_API_KEY"),  
+    base_url=os.getenv("GEMINI_BASE_URL"),
 )
 
 llm_web = ChatOpenAI(
-model="tinyllama",  
-    openai_api_key=os.getenv("GEMINI_API_KEY"),  
-    openai_api_base=os.getenv("GEMINI_BASE_URL"),
+model="mistral:7b",  
+    api_key=os.getenv("GEMINI_API_KEY"),  
+    base_url=os.getenv("GEMINI_BASE_URL"),
 
 
 )
