@@ -10,7 +10,7 @@ import os
 import json
 load_dotenv(override=True)
 llm_url = ChatOpenAI(
-model="gemini-2.5-flas",  
+model="tinyllama",  
     openai_api_key=os.getenv("GEMINI_API_KEY"),  
     openai_api_base=os.getenv("GEMINI_BASE_URL"),
 )
